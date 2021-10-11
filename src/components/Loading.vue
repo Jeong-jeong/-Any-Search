@@ -8,11 +8,7 @@
 </template>
 
 <script>
-	import BounceLoader from 'vue-spinner/src/BounceLoader'
 export default {
-	components: {
-		BounceLoader
-	},
 	computed: {
 		isLoading() {
       return this.$store.getters['searchResult/isLoading']
