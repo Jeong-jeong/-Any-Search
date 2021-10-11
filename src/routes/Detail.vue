@@ -1,6 +1,6 @@
 <template>
   <section
-    class="detail" v-if="!this.isLoading">
+    class="detail" v-if="!this.$store.getters['searchResult/isLoading']">
     <template v-if="currentResult.Poster === 'N/A'">
       <img
         src="../assets/images/no-poster.jpeg" 
