@@ -1,19 +1,19 @@
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 button {
-	border: none;
-	background-color: inherit;
-	padding: 0;
-	cursor: pointer;
+  border: none;
+  background-color: inherit;
+  padding: 0;
+  cursor: pointer;
 }
 
 *:focus {
-	outline-color: $COLOR_RED;
+  outline-color: $COLOR_RED;
 }
 
-dt, dd {
-	display: inline-block;
+dt,
+dd {
+  display: inline-block;
 }
-

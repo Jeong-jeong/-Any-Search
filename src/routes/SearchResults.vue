@@ -1,53 +1,49 @@
 <template>
   <div class="search-results__wrapper">
-    <FoundResults searchResults="searchResults"/>
+    <FoundResults searchResults="searchResults" />
     <div class="search-results">
-    <ul
-      class="search-results__list">
-      <li
-        v-for="searchResult in searchResults"
-        :key="searchResult.imdbID"
-        tabindex="0"
-        :class="`search-results__list-item ${searchResult.imdbID}`"
-        @click="submit"
-        @keyup.enter="submit">
-        <h2 class="infos">
-          <p class="title">
-            {{ searchResult.Title.toUpperCase() }}
-            <span class="year">
-              ({{ searchResult.Year }})
-            </span>
-          </p>
-          
-          <p class="type">
-            타입: {{ searchResult.Type }}
-          </p>
-        </h2>
-        <div class="poster">
-          <template v-if="searchResult.Poster === 'N/A'">
-            <img
-              class="no-poster"
-              src="../assets/images/no-poster.jpeg"
-              alt="" />
-            <p>포스터가 없습니다 😣</p>
-          </template>
-          <template v-else>
-            <img
-              :src="searchResult.Poster"
-              :alt="`(${searchResult.Type}) ${searchResult.Title}`" />
-          </template>
-        </div>
-      </li>
-      <div
-        ref="scrollObserver"
-        class="scroll-observer"></div>
-    </ul>
+      <ul class="search-results__list">
+        <li
+          v-for="searchResult in searchResults"
+          :key="searchResult.imdbID"
+          tabindex="0"
+          :class="`search-results__list-item ${searchResult.imdbID}`"
+          @click="submit"
+          @keyup.enter="submit"
+        >
+          <h2 class="infos">
+            <p class="title">
+              {{ searchResult.Title.toUpperCase() }}
+              <span class="year"> ({{ searchResult.Year }}) </span>
+            </p>
+
+            <p class="type">타입: {{ searchResult.Type }}</p>
+          </h2>
+          <div class="poster">
+            <template v-if="searchResult.Poster === 'N/A'">
+              <img
+                class="no-poster"
+                src="../assets/images/no-poster.jpeg"
+                alt=""
+              />
+              <p>포스터가 없습니다 😣</p>
+            </template>
+            <template v-else>
+              <img
+                :src="searchResult.Poster"
+                :alt="`(${searchResult.Type}) ${searchResult.Title}`"
+              />
+            </template>
+          </div>
+        </li>
+        <div ref="scrollObserver" class="scroll-observer"></div>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import FoundResults from '~/components/SearchResults/FoundResults'
+import FoundResults from "~/components/SearchResults/FoundResults"
 
 export default {
   components: {
@@ -67,43 +63,45 @@ export default {
     },
   },
   mounted() {
-      this.initIntersectionObserver()
-      // mounted 됐을 때 observer 호출
+    this.initIntersectionObserver()
+    // mounted 됐을 때 observer 호출
   },
   methods: {
     async getMoreArticles() {
-      await this.$store.dispatch('searchResult/updateSearchResults', {
+      await this.$store.dispatch("searchResult/updateSearchResults", {
         keyword: this.$route.params.keyword,
-        page: ++this.page
+        page: ++this.page,
       })
     },
     initIntersectionObserver() {
-      const io = new IntersectionObserver(async ([entry], observer) => {
-        if (entry.isIntersecting) {
-          observer.unobserve(entry.target)
-          await this.getMoreArticles()
-          if (this.searchResults.length < this.totalResults) {
-            // 불러온 배열의 길이가 totalResults의 길이보다 작을 때만 observe 갱신
-            this.$nextTick(() => observer.observe(entry.target))
+      const io = new IntersectionObserver(
+        async ([entry], observer) => {
+          if (entry.isIntersecting) {
+            observer.unobserve(entry.target)
+            await this.getMoreArticles()
+            if (this.searchResults.length < this.totalResults) {
+              // 불러온 배열의 길이가 totalResults의 길이보다 작을 때만 observe 갱신
+              this.$nextTick(() => observer.observe(entry.target))
+            }
           }
-        } 
-      }, {
-        root: null,
-        rootMargin: '0px',
-        threshold: .5
-      })
+        },
+        {
+          root: null,
+          rootMargin: "0px",
+          threshold: 0.5,
+        }
+      )
       io.observe(this.$refs.scrollObserver)
     },
     submit(e) {
-      const [ _, id ] = e.target.closest('li').className.split(' ')
-      this.$router.push({ name: 'Detail', params: { id } })
+      const [_, id] = e.target.closest("li").className.split(" ")
+      this.$router.push({ name: "Detail", params: { id } })
     },
-  }
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-
 .scroll-observer {
   border: 1px solid transparent;
 }
@@ -167,19 +165,19 @@ export default {
   }
 }
 
-  li {
-    border: 1px solid $COLOR_GRAY;
-  }
+li {
+  border: 1px solid $COLOR_GRAY;
+}
 
-  .search-results {
-    &__list {
-      @include responsive('md') {
-        grid-template-columns: repeat($GRID_COLUMNS_MD, 1fr);
-      }
+.search-results {
+  &__list {
+    @include responsive("md") {
+      grid-template-columns: repeat($GRID_COLUMNS_MD, 1fr);
+    }
 
-      @include responsive('lg') {
-        grid-template-columns: repeat($GRID_COLUMNS_LG, 1fr);
-      }
+    @include responsive("lg") {
+      grid-template-columns: repeat($GRID_COLUMNS_LG, 1fr);
     }
   }
+}
 </style>

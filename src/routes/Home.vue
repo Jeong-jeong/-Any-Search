@@ -1,20 +1,15 @@
 <template>
   <div class="home__wrapper">
-    <h1 class="title">
-      원하는 영화를 쉽고 빠르게
-    </h1>
+    <h1 class="title">원하는 영화를 쉽고 빠르게</h1>
     <div class="search-area">
       <input
         ref="search"
         class="search"
         placeholder="검색하세요 😉"
-        @keyup.enter.prevent="submit" />
+        @keyup.enter.prevent="submit"
+      />
     </div>
-    <p
-      v-if="!checkLength"
-      class="recommend">
-      3글자 이상 작성해주세요
-    </p>
+    <p v-if="!checkLength" class="recommend">3글자 이상 작성해주세요</p>
   </div>
 </template>
 
@@ -22,7 +17,7 @@
 export default {
   data() {
     return {
-      checkLength: true
+      checkLength: true,
     }
   },
   mounted() {
@@ -36,61 +31,65 @@ export default {
         return
       }
       this.checkLength = true
-      await this.$store.dispatch('searchResult/updateSearchResults', {
-        keyword: this.$refs.search.value
+      await this.$store.dispatch("searchResult/updateSearchResults", {
+        keyword: this.$refs.search.value,
       })
-      this.$router.push({ name: 'SearchResults', params: { keyword: this.$refs.search.value } })
-      this.$refs.search.value = ''
+      this.$router.push({
+        name: "SearchResults",
+        params: { keyword: this.$refs.search.value },
+      })
+      this.$refs.search.value = ""
     },
-    recommendLongerValue() { // FIXME: 이거 computed에 적어야 되나? 
-      console.log('less than 3')
+    recommendLongerValue() {
+      // FIXME: 이거 computed에 적어야 되나?
       this.checkLength = false
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-  .home__wrapper {
-    height: calc(100vh - $HEADER_HEIGHT * 2);
-    @include flexbox;
-    flex-direction: column;
-    flex-grow: 1;
-  }
+.home__wrapper {
+  height: calc(100vh - $HEADER_HEIGHT * 2);
+  @include flexbox;
+  flex-direction: column;
+  flex-grow: 1;
+}
 
-  .title {
-    font-size: 50px;
-    text-align: center;
-    word-break: keep-all;
-    font-weight: 700;
-    margin-bottom: $BASE_PADDING * 4;
-  }
+.title {
+  font-size: 50px;
+  text-align: center;
+  word-break: keep-all;
+  font-weight: 700;
+  margin-bottom: $BASE_PADDING * 4;
+}
 
-  .search-area {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    .search {
-      width: 80%;
-      min-width: 250px;
-      padding: $BASE_PADDING;
-      font-size: 24px;
-      border-radius: $BORDER_RADIOUS;
-      border: 2px solid $COLOR_GRAY;
+.search-area {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  .search {
+    width: 80%;
+    min-width: 250px;
+    padding: $BASE_PADDING;
+    font-size: 24px;
+    border-radius: $BORDER_RADIOUS;
+    border: 2px solid $COLOR_GRAY;
 
-      &:hover, &:focus {
-        border-color: $COLOR_RED;
-        outline: none;
-      }
+    &:hover,
+    &:focus {
+      border-color: $COLOR_RED;
+      outline: none;
+    }
 
-      &::placeholder {
-        color: $COLOR_SECONDARY;
-      }
+    &::placeholder {
+      color: $COLOR_SECONDARY;
     }
   }
+}
 
-  .recommend {
-    padding: $BASE_PADDING 0;
-    color: $COLOR_RED;      
-  }
+.recommend {
+  padding: $BASE_PADDING 0;
+  color: $COLOR_RED;
+}
 </style>
