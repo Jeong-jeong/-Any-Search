@@ -64,6 +64,7 @@ async function _request (params) {
       method: 'POST',
       body: JSON.stringify(params)
     })
+    console.log(res)
     if (res.ok) {
       return res.json()
     }

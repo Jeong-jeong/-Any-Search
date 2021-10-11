@@ -1,6 +1,5 @@
 require('dotenv').config()
 const axios = require('axios')
-
 const {API_END_POINT, API_KEY} = process.env
 
 exports.handler = async function (event) {
