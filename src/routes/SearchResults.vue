@@ -43,18 +43,15 @@
         class="scroll-observer"></div>
     </ul>
     </div>
-    <Loading />
   </div>
 </template>
 
 <script>
 import FoundResults from '~/components/SearchResults/FoundResults'
-import Loading from '~/components/Loading'
 
 export default {
   components: {
     FoundResults,
-    // Loading
   },
   data() {
     return {
@@ -93,11 +90,11 @@ export default {
       }, {
         root: null,
         rootMargin: '0px',
-        threshold: .5 // 마지막 요소가 다 들어왔을 때 isIntersecting
+        threshold: .5
       })
       io.observe(this.$refs.scrollObserver)
     },
-    async submit(e) {
+    submit(e) {
       const [ _, id ] = e.target.closest('li').className.split(' ')
       this.$router.push({ name: 'Detail', params: { id } })
     },
@@ -148,12 +145,10 @@ export default {
             font-weight: 500;
           }
         }
-      .type {
-        padding-top: $BASE_PADDING;
+        .type {
+          padding-top: $BASE_PADDING;
+        }
       }
-      }
-
-
 
       .poster {
         flex-grow: 1;
