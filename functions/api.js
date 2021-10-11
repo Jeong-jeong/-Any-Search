@@ -6,7 +6,8 @@ exports.handler = async function (event) {
 	const params = JSON.parse(event.body)
   
     const { data } = await axios({
-			url: `${API_END_POINT}?apikey=${API_KEY}&${params}`
+			url: `${API_END_POINT}?apikey=${API_KEY}&${params}`,
+			method: 'GET'
 		})
 	return {
 		statusCode: 200,
