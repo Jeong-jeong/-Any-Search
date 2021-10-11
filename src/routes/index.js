@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from './Home'
 import SearchResults from './SearchResults'
 import Detail from './Detail'
+import Plot from './Plot'
 import NotFound from './NotFound'
 
 export default createRouter({
@@ -20,7 +21,15 @@ export default createRouter({
     {
       name: 'Detail',
       path: '/detail-:id',
-      component: Detail
+      component: Detail,
+      children: [
+        {
+          name: 'Plot',
+          path: 'plot',
+          component: Plot,
+          props: true
+        }
+      ]
     },
     {
       path: '/:notFound(.*)',

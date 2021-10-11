@@ -1,6 +1,6 @@
 <template>
   <section
-    class="detail">
+    class="detail" v-if="!this.isLoading">
     <template v-if="currentResult.Poster === 'N/A'">
       <img
         src="../assets/images/no-poster.jpeg" 
@@ -11,18 +11,20 @@
       v-else
       :src="currentResult.Poster.replace(/SX300/gi,'SX700')" 
       alt="poster background"
-      class="poster__background" />
-    <div class="detail__card">
+      class="poster__background"
+      v-show="!this.isLoading" />
+    <div class="detail__card" :class="{ active: show }">
       <h1 class="detail__card-title">
         {{ currentResult.Title }} <span class="year">({{ currentResult.Year }})</span>
       </h1>
+      <div class="detail__content-wrapper">
       <div class="detail__content">
         <div class="poster">
           <template v-if="currentResult.Poster === 'N/A'">
             <img
               src="../assets/images/no-poster.jpeg" 
               alt="poster"
-              class="poster__main" />
+              class="poster__main"/>
             <p class="no-poster__desc">
               이미지가 없습니다
             </p>
@@ -31,7 +33,8 @@
             v-else
             :src="currentResult.Poster" 
             alt="poster"
-            class="poster__main" />
+            class="poster__main"
+            :class=" {active: show}" />
         </div>
         <div>
           <ul class="detail__content-infos">
@@ -162,16 +165,29 @@
         </div>
       </div>
       <button
+      class="plot-btn"
+      :class=" {active: show} "
         aria-label="줄거리 보러가기"
-        :plot="currentResult.Plot">
-        줄거리가 보고 싶다면?
+        @click="toggle">
+        <span v-if="!this.show">줄거리 보기</span>
+        <span v-else>줄거리 닫기</span>
       </button>
+      <RouterView v-show="show"/>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
 export default {
+  mounted() {
+    
+  },
+  data() {
+    return {
+      show: false
+    }
+  },
   computed: {
     currentResult() {
       return this.$store.state.searchResult.currentResult
@@ -191,15 +207,22 @@ export default {
     },
     putIcon() {
       const type = this.currentResult.Type
-      if ( type === 'movie') {
+      switch (type) {
+        case 'movie' :
         return `${type} 🎥`
-      } else if ( type === 'series' ) {
+        case 'series' :
         return `${type} 🔁`
-      } else if ( type === 'game' ) {
+        case 'game' :
         return `${type} 🎮`
-      } else {
+        default :
         return `${type} 💥` // episode
       }
+    },
+    toggle() {
+      this.show = !this.show
+      this.show
+      ? this.$router.push({ name: 'Plot', params: { plot: this.currentResult.Plot } })
+      : this.$router.go(-1)
     }
   },
 }
@@ -214,7 +237,7 @@ export default {
   &__card {
     position: absolute;
     top: 0;
-    @include flexbox;
+    @include flexbox($jc: around);
     flex-direction: column;
     width: 100%;
     min-height: $XS300_HEIGHT;
@@ -238,7 +261,7 @@ export default {
     display: grid;
     grid-template-columns: #{$GRID_COLUMNS_SM}fr;
     justify-items: center;
-    align-content: center;
+    align-items: center;
     max-width: $DETAIL_WIDTH;
     padding: $BASE_PADDING;
     box-shadow: $BOX_SHADOW;
@@ -305,6 +328,27 @@ export default {
       border-radius: $BORDER_RADIOUS;
       border: 5px solid $COLOR_RED;
       box-shadow: $BOX_SHADOW;
+      transition: border-color 200ms;
+
+      &:hover, &.active {
+        border-color: $COLOR_ORANGE;
+      }
+    }
+  }
+
+  .plot-btn {
+    width: 100%;
+    max-width: $DETAIL_WIDTH;
+    padding: $BASE_PADDING;
+    margin: $BASE_PADDING 0;
+    color: $COLOR_WHITE;
+    background-color: $COLOR_RED;
+    font-weight: 700;
+    box-shadow: 4px 4px 3px rgba(black, 0.2);
+    transition: background-color 200ms;
+
+    &:hover, &.active {
+      background-color: $COLOR_ORANGE;
     }
   }
 }
@@ -316,6 +360,10 @@ export default {
 
       &__card {
         position: static;
+
+        &.active {
+          position: absolute;
+        }
       }
 
       &__content {
