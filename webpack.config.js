@@ -81,5 +81,10 @@ module.exports = {
   devServer: {
     port: 8080,
     historyApiFallback: true
+  },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
   }
 }
