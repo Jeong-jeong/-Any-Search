@@ -52,6 +52,7 @@ module.exports = {
                 @use "sass:meta";
                 @use "sass:selector";
                 @use "sass:string";
+                @import "~/styles/mixins/_position";
                 @import "~/styles/mixins/_responsive";
                 @import "~/styles/mixins/_flexbox";
                 @import "~/styles/_variables";

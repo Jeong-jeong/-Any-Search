@@ -53,10 +53,8 @@ export default {
     }
 
     .txt {
-      position: absolute;
+      @include pos-center-x;
       top: 50%;
-      left: 50%;
-      transform: translateX(-50%);
       font-size: 16px;
       font-weight: 700;
       white-space: nowrap;
