@@ -1,23 +1,41 @@
+<<<<<<< HEAD
 @mixin pos-center($pos: absolute) {
   @if ($pos == fixed or $pos == absolute) {
     position: $pos;
+=======
+@mixin pos-center($position: absolute) {
+  @if ($position == fixed or $position == absolute) {
+    position: $position;
+>>>>>>> 2d98931fd0443d365e309208a348d02083e5fd6c
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
 }
 
+<<<<<<< HEAD
 @mixin pos-center-x($pos: absolute) {
   @if ($pos == fixed or $pos == absolute) {
     position: $pos;
+=======
+@mixin pos-center-x($position: absolute) {
+  @if ($position == fixed or $position == absolute) {
+    position: $position;
+>>>>>>> 2d98931fd0443d365e309208a348d02083e5fd6c
     left: 50%;
     transform: translateX(-50%);
   }
 }
 
+<<<<<<< HEAD
 @mixin pos-center-y($pos: absolute) {
   @if ($pos == fixed or $pos == absolute) {
     position: $pos;
+=======
+@mixin pos-center-y($position: absolute) {
+  @if ($position == fixed or $position == absolute) {
+    position: $position;
+>>>>>>> 2d98931fd0443d365e309208a348d02083e5fd6c
     top: 50%;
     transform: translateY(-50%);
   }
