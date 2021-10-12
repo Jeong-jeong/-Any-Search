@@ -9,7 +9,8 @@
         @keyup.enter.prevent="submit"
       />
     </div>
-    <p v-if="!checkLength" class="recommend">3글자 이상 작성해주세요</p>
+    <p v-if="!isMoreThan3" class="recommend">3글자 이상 작성해주세요</p>
+    <p v-if="!isEnglish" class="recommend">영어로 입력해주세요</p>
   </div>
 </template>
 
@@ -17,20 +18,29 @@
 export default {
   data() {
     return {
-      checkLength: true,
+      isMoreThan3: true,
+      isEnglish: true,
     }
   },
   mounted() {
     this.$refs.search.focus()
   },
   methods: {
+    checkSearchValueLength(searchValueLength) {
+      return searchValueLength < 3 ? false : true
+    },
+    checkEnglish(searchValue) {
+      const korean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/gi
+      return korean.test(searchValue) ? false : true
+    },
+    changeData(searchValue) {
+      this.isMoreThan3 = this.checkSearchValueLength(searchValue.length)
+      this.isEnglish = this.checkEnglish(searchValue)
+    },
     async submit() {
-      if (this.$refs.search.value.length < 3) {
-        // submit 후 3글자 미만이라면
-        this.recommendLongerValue()
-        return
-      }
-      this.checkLength = true
+      const searchValue = this.$refs.search.value
+      this.changeData(searchValue)
+      if (!this.isMoreThan3 || !this.isEnglish) return
       await this.$store.dispatch("searchResult/updateSearchResults", {
         keyword: this.$refs.search.value,
       })
@@ -39,10 +49,6 @@ export default {
         params: { keyword: this.$refs.search.value },
       })
       this.$refs.search.value = ""
-    },
-    recommendLongerValue() {
-      // FIXME: 이거 computed에 적어야 되나?
-      this.checkLength = false
     },
   },
 }
