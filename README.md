@@ -4,7 +4,6 @@
 
 # 프로젝트 개요
 
----
 
 ## 💬 설명
 
@@ -41,3 +40,5 @@
 ## 🤸🏽‍♀️ Any-Search 회고록
 
 [고뇌록 | 첫 Vue 프로젝트 : 영화 검색 사이트](https://velog.io/@jeongs/%EA%B3%A0%EB%87%8C%EB%A1%9D-%EC%B2%AB-Vue-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%98%81%ED%99%94-%EA%B2%80%EC%83%89-%EC%82%AC%EC%9D%B4%ED%8A%B8)
+
+
